@@ -13,7 +13,6 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -50,9 +49,6 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
- #Enable KDE
- #  services.xserver.displayManager.sddm.enable = true;
- #  services.xserver.desktopManager.plasma5.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -94,15 +90,19 @@
     ];
   };
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  #  wget
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     pkgs.neovim
     pkgs.gnome.gnome-terminal
     pkgs.go
-    pkgs.vscodium
     pkgs.python311
     pkgs.ansible_2_13
     pkgs.google-chrome
@@ -111,16 +111,19 @@
     pkgs.git
     pkgs.kind
     pkgs.kubectl
+    pkgs.bat
+    pkgs.vscode
+    pkgs.zsh
+    pkgs.distrobox
+    pkgs.awscli2
+    pkgs.python311Packages.pip
+    pkgs.ansible-lint
+    pkgs.gabutdm
   ];
 
-
-  nixpkgs.config.allowUnfree = true;
-
-  # Docker configuration
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;
   users.extraGroups.docker.members = [ "chinmay" ];
-
 
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -148,6 +151,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
+
